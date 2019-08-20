@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "bigzoo/bin/python3.6",
+    "git.ignoreLimitWarning": true
+}
