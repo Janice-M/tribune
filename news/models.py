@@ -10,6 +10,9 @@ class Editor(models.Model):
 
     def __str__(self):
         return self.first_name
+    
+    def save_editor(self):
+        self.save()
     class Meta:
         ordering = ['first_name']
     
