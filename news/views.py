@@ -74,6 +74,7 @@ def past_days_news(request,past_date):
     news = Article.days_news(date)
     return render(request, 'all-news/past-news.html',{"date": date,"news":news})
 def search_results(request):
+    #searches based on what is inputted 
     
     if 'article' in request.GET and request.GET["article"]:
         search_term = request.GET.get("article")
