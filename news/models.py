@@ -21,7 +21,7 @@ class Editor(models.Model):
         
     
     
-class tags(models.Model):
+class Tags(models.Model):
     name = models.CharField(max_length =30)
 
     def __str__(self):
@@ -32,7 +32,7 @@ class Article(models.Model):
     post = models.TextField()
     #ONE ARTICLE = MANY EDITORS
     editor = models.ForeignKey(Editor)
-    tags = models.ManyToManyField(tags)
+    tags = models.ManyToManyField(Tags)
     #PUBDATE IS DATE ARTICLE WAS PUBLISHED
     
     pub_date = models.DateTimeField(auto_now_add=True)
