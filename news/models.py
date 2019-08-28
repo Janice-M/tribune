@@ -15,12 +15,13 @@ class Editor(models.Model):
     
     class Meta:
         ordering = ['first_name']
+        
     def save_editor(self):
         self.save()
         
     
     
-class tags(models.Model):
+class Tags(models.Model):
     name = models.CharField(max_length =30)
 
     def __str__(self):
@@ -29,25 +30,20 @@ class tags(models.Model):
 class Article(models.Model):
     title = models.CharField(max_length =60)
     post = models.TextField()
+    #ONE ARTICLE = MANY EDITORS
     editor = models.ForeignKey(Editor)
     tags = models.ManyToManyField(tags)
+    #PUBDATE IS DATE ARTICLE WAS PUBLISHED
+    
     pub_date = models.DateTimeField(auto_now_add=True)
     article_image = models.ImageField(upload_to = 'articles/', default='')
     
-    def title (self):
-        return self.title
-    
-    def save_article(self):
-        self.save()
-        
-    def delete_Article(self):
-        self.delete()
-        
     @classmethod
     def todays_news(cls):
         today = dt.date.today()
         news = cls.objects.filter(pub_date__date = today)
         return news
+    
     @classmethod
     def days_news(cls, date):
         news=cls.objects.filter(pub_date__date=date)
@@ -55,3 +51,15 @@ class Article(models.Model):
     def search_by_title(cls,search_term):
         news = cls.objects.filter(title__icontains=search_term)
         return news
+    
+    ''' def title (self):
+        return self.title
+    
+    def save_article(self):
+        self.save()
+        
+    def delete_Article(self):
+        self.delete()
+         '''
+    
+    
