@@ -33,7 +33,7 @@ class Article(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     article_image = models.ImageField(upload_to = 'articles/', default='')
     
-    def article_title (self):
+    def title (self):
         return self.title
     
     def save_article(self):
