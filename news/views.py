@@ -1,7 +1,9 @@
-from django.http  import HttpResponse,Http404
 import datetime as dt
-from django.shortcuts import render, redirect
-from .models import Article
+from django.shortcuts import render,redirect
+from django.http import HttpResponse,Http404,HttpResponseRedirect
+from .models import Article,NewsLetterRecipients
+from .forms import NewsLetterForm
+from .email import send_welcome_email
 
 # Create your views here.
 def welcome(request):
@@ -79,7 +81,7 @@ def search_results(request):
 def article(request,article_id):
     try:
         article= Article.objects.get(id=article_id)
-    except DoesNotExist:
+    except DoesNotExist
         raise Http404()
     return render (request, "all-news/article.html", {"article":article})
     
