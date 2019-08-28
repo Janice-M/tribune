@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 from .models import Article,NewsLetterRecipients
 from .forms import NewsLetterForm
-from .email import send_welcome_emaile
+from .email import send_welcome_email
 
 # Create your views here.
 def welcome(request):
