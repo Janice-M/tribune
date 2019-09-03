@@ -10,6 +10,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import  MoringaMerch
 from .serializer import MerchSerializer
+from rest_framework import status
+
 
 def news_of_day(request):
     date=dt.date.today()
@@ -114,3 +116,15 @@ def newsletter(request):
     send_welcome_email(name,email)
     data = {'success': 'You have been sucessfully added to the mailing list'}
     return JsonResponse(data)
+
+class MerchList(APIView):
+    def get(self, request, format=None):
+        all_merch = MoringaMerch.objects.all()
+        serializers = MerchSerializer(all_merch, many=True)
+        return Response(serializers.data)
+    def post(self, request, format=None):
+        serializers = MerchSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
