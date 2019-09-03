@@ -5,12 +5,14 @@ from . models import Article,NewsLetterRecipients
 from . forms import NewsLetterForm,NewArticleForm
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
-
+from django.http import JsonResponse
 
 def news_of_day(request):
     date=dt.date.today()
     news=Article.todays_news()
+    form=NewsLetterForm()
     
+
     if request.method=='POST':
         form=NewsLetterForm(request.POST)
         if form.is_valid():
@@ -99,3 +101,12 @@ def new_article(request):
     return render(request, 'new_article.html', {"form": form})
 
 
+def newsletter(request):
+    name=request.POST.get('your_name')
+    email = request.POST.get('email')
+    
+    recipient=NewsLetterRecipients(name=name, email=email)
+    recipient.save()
+    send_welcome_email(name,email)
+    data = {'success': 'You have been sucessfully added to the mailing list'}
+    return JsonResponse(data)
