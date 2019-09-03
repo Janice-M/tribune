@@ -120,11 +120,7 @@ def newsletter(request):
 
 class MerchList(APIView):
     permission_classes = (IsAdminOrReadOnly,)
-    def get_merch(self, pk):
-        try:
-            return MoringaMerch.objects.get(pk=pk)
-        except MoringaMerch.DoesNotExist:
-            return Http404
+    
         
     def get(self, request, format=None):
         all_merch = MoringaMerch.objects.all()
@@ -138,3 +134,28 @@ class MerchList(APIView):
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
     
     
+class MerchDescription(APIView):
+    permission_classes = (IsAdminOrReadOnly,)
+    def get_merch(self, pk):
+        try:
+            return MoringaMerch.objects.get(pk=pk)
+        except MoringaMerch.DoesNotExist:
+            return Http404
+
+    def get(self, request, pk, format=None):
+        merch = self.get_merch(pk)
+        serializers = MerchSerializer(merch)
+        return Response(serializers.data)
+    def put(self, request, pk, format=None):
+        merch = self.get_merch(pk)
+        serializers = MerchSerializer(merch, request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data)
+        else:
+            return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, request, pk, format=None):
+        merch = self.get_merch(pk)
+        merch.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
