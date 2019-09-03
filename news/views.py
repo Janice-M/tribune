@@ -11,6 +11,7 @@ from rest_framework.views import APIView
 from .models import  MoringaMerch
 from .serializer import MerchSerializer
 from rest_framework import status
+from .permissions import IsAdminOrReadOnly
 
 
 def news_of_day(request):
@@ -118,6 +119,13 @@ def newsletter(request):
     return JsonResponse(data)
 
 class MerchList(APIView):
+    permission_classes = (IsAdminOrReadOnly,)
+    def get_merch(self, pk):
+        try:
+            return MoringaMerch.objects.get(pk=pk)
+        except MoringaMerch.DoesNotExist:
+            return Http404
+        
     def get(self, request, format=None):
         all_merch = MoringaMerch.objects.all()
         serializers = MerchSerializer(all_merch, many=True)
@@ -128,3 +136,5 @@ class MerchList(APIView):
             serializers.save()
             return Response(serializers.data, status=status.HTTP_201_CREATED)
         return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
