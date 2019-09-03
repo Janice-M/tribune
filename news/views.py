@@ -6,6 +6,10 @@ from . forms import NewsLetterForm,NewArticleForm
 from .email import send_welcome_email
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import  MoringaMerch
+from .serializer import MerchSerializer
 
 def news_of_day(request):
     date=dt.date.today()
