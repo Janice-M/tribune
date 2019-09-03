@@ -17,9 +17,9 @@ from tinymce.models import HTMLField
     
     class Meta:
         ordering = ['first_name']
-         '''
-    def save_editor(self):
-        self.save()
+        '''
+    ''' def save_editor(self):
+        self.save() '''
         
     
     
@@ -49,6 +49,7 @@ class Article(models.Model):
     @classmethod
     def days_news(cls, date):
         news=cls.objects.filter(pub_date__date=date)
+        return news
         
     @classmethod
     def search_by_title(cls,search_term):
